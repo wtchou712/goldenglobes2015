@@ -81,6 +81,7 @@ for x in range(0,len(bigram_array2)):
 		one_bigram = bigram_collection[y]
 		#print one_token
 		temp_array = []
+		# ADD CODE FOR STOPSET USING IF STATEMENT BELOW... need to check a and b in tuple (a,b) for stopset match
 		#if one_token not in stopset:
 			####print one_token	
 		all_bigrams_array.append(one_bigram)
