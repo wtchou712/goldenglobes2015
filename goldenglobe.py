@@ -14,10 +14,7 @@ from collections import Counter
 def remove_punct(string):
 	string=regex.sub(' ', string)
 	return string
-
-
-
-
+print "================================================="
 data = []
 with open('/Users/MatthewSchley/Downloads/gg2013.json') as f:
     for line in f:
@@ -47,10 +44,11 @@ for x in range(0,len(corpus)):
 	bigrams = nltk.bigrams(sentence)
 	token_array.append(tokens)
 	pairs = [ ", ".join(pair) for pair in nltk.bigrams(tokens)]	
-	print bigrams
+	#print bigrams
 	bigram_array.append(pairs)
 	words = re.findall('\w+', sentence)
-	bigram_array2.append(Counter(zip(words,words[1:])))
+	temp = zip(words,words[1:]) # maybe add Counter() wrapper back to this function 
+	bigram_array2.append(temp)
 
 stopset = set(stopwords.words('english'))
 
@@ -72,9 +70,22 @@ for x in range(0,len(token_array)):
 			#no_common_words = (token_list)
 			#no_common_words_array.append(no_common_words)
 
+all_bigrams_array = []
+for x in range(0,len(bigram_array2)):
+	#print corpus[x]
+	bigram_collection = bigram_array2[x]
+	print bigram_collection
+	print "\n"
+	for y in range(0,len(bigram_collection)):
+		one_token = bigram_collection[y]
+		print one_token
+		temp_array = []
+		#if one_token not in stopset:
+			####print one_token	
+		all_bigrams_array.append(one_token)
 
 ###print final_array
-
+print all_bigrams_array
 fdist = FreqDist(final_array)
 # print fdist.most_common(100)
 
@@ -83,12 +94,12 @@ fdist = FreqDist(final_array)
 #	print bigram_array[x]
 #	print "\n"
 
-fdist1 = nltk.FreqDist(bigram_array2)
-print fdist1.most_common(100)
+fdist1 = nltk.FreqDist(all_bigrams_array)
+print fdist1.most_common(10)
 
-bigram_measures = nltk.collocations.BigramAssocMeasures()
-finder = BigramCollocationFinder.from_words(bigrams)
-final = finder.nbest(bigram_measures.pmi, 10) 
+#bigram_measures = nltk.collocations.BigramAssocMeasures()
+#finder = BigramCollocationFinder.from_words(bigrams)
+#final = finder.nbest(bigram_measures.pmi, 10) 
 
 #print final
 
