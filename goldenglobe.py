@@ -28,8 +28,9 @@ for tweet in data[0]:
 	text = tweet["text"].lower()	
 	text = remove_punct(text)
 	#tokens = tokenize(text)
-	if "best actor in a motion picture drama" in text:
+	if "best actor in a motion picture comedy" in text:
 		corpus.append(text)
+
 	#	print "\n"
 	# corpus.append(text)
 	# print tokens
@@ -52,6 +53,17 @@ for x in range(0,len(corpus)):
 	bigram_array2.append(temp)
 
 stopset = set(stopwords.words('english')) # this is the creation of our stopset -- words we don't want to include
+stopset.add('best')
+stopset.add('golden')
+stopset.add('globes')
+stopset.add('goldenglobes')
+stopset.add('goldenglobe')
+stopset.add('rt')
+stopset.add('actor')
+stopset.add('motion')
+stopset.add('picture')
+stopset.add('comedy')
+stopset.add('musical')
 
 final_array = [] # this array will store all unigrams 
 no_common_words_array = []
@@ -82,9 +94,11 @@ for x in range(0,len(bigram_array2)):
 		#print one_token
 		temp_array = []
 		# ADD CODE FOR STOPSET USING IF STATEMENT BELOW... need to check a and b in tuple (a,b) for stopset match
-		#if one_token not in stopset:
+		if one_bigram[0] not in stopset:
+			if one_bigram[1] not in stopset:
 			####print one_token	
-		all_bigrams_array.append(one_bigram)
+				all_bigrams_array.append(one_bigram)
+
 print "UNIGRAM FREQUENCY OUTPUT"
 #print all_bigrams_array  # this is an array containing all bigrams... 
 fdist = FreqDist(final_array)
@@ -96,5 +110,3 @@ print "BIGRAM FREQUENCY OUTPUT"
 fdist1 = nltk.FreqDist(all_bigrams_array)
 print fdist1.most_common(20)
 print "================================================="
-
-
