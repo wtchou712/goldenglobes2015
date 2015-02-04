@@ -11,6 +11,21 @@ from nltk.tokenize import RegexpTokenizer
 from nltk.collocations import *
 from collections import Counter
 
+
+awardsList = ['best motion picture - drama', 'best motion picture - comedy or musical', 'best director - motion picture',
+              'best mini-series or motion picture made for television', 'best screenplay - motion picture',
+              'best television series - drama', 'best television series - comedy or musical',
+              'best foreign language film', 'best animated feature film', 
+              'best actor in a motion picture, drama', 'best actor in a motion picture, musical or comedy',
+              'best actress in a motion picture, drama', 'best actress in a motion picture, musical or comedy',
+              'best supporting actor in a motion picture', 'best supporting actress in a motion picture',
+              'best actress in a tv series, drama', 'best actor in a tv series, drama',
+              'best actor in a tv series, comedy', 'best actress in a tv series, comedy',
+              'best actress in a miniseries or tv movie', 'best actor in a miniseries or tv movie',
+              'best supporting actress in a series, mini-series or tv movie', 'best supporting actor in a series, mini-series or tv movie',
+             'best original score - movie', 'best original song - motion picture'
+              ]   
+
 def remove_punct(string):
 	string=regex.sub(' ', string)
 	return string
