@@ -18,7 +18,7 @@ def remove_punct(string):
 print "================================================="
 print "\n"
 data = []
-with open('/Users/MatthewSchley/Downloads/gg2013.json') as f:
+with open('gg2013.json') as f:
     for line in f:
         data.append(json.loads(line))
 
