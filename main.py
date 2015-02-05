@@ -24,7 +24,7 @@ directory = {'Ben Affleck': 'Argo', 'Kathryn Bigelow' : "Zero Dark Thirty", 'Ang
 		  'Maggie Smith':'Downtown Abbey:Season 2', 'Sofia Vergara':'Modern Family', 'Max Greenfield':'New Girl', 'Ed Harris':'Game Change', 'Danny Huston':'Magic City', 
 		  'Eric Stonestreet':'Modern Family'}
 
-MPDrama = ["Argo", "Django Unchained", "Life of Pi", "Lincoln", "Zero Dark Thirty"]
+MPDrama = ["Lincoln", "Django Unchained", "Life of Pi", "Argo", "Zero Dark Thirty"]
 MPMusicComedy = ["The Best Exotic Marigold Hotel", "Les Miserables", "Moonrise Kingdom", "Salmon Fishing in the Yemen", "Silver Linings Playbook"]
 MPDirector = ["Ben Affleck", "Kathryn Bigelow", "Ang Lee", "Steven Steilberg", "Quentin Tarantino"]
 MPActressDrama = ["Jessica Chastain", "Marion Cotillard", 'Helen Mirren', 'Naomi Watts', 'Rachel Weisz']
@@ -88,28 +88,33 @@ if (var == "1"):
 	bis=top20[1]
 	uniarray=[]
 	biarray=[]
-	for x in range (0,5):
+	for x in range(0,5):
 		uniarray.append(unis[x][0])
-	for x in range (0,5):
+	for x in range(0,5):
 		temp = bis[x][0]
 		biarray.append(temp)
 	print "================================================"
 	#for x in range (0,len(uniarray)):
-		#print uniarray[x]
+	#	print uniarray[x]
 	print "================================================"
 	#for x in range (0,len(biarray)):
-		#print biarray[x]
-	for y in range (0,len(MPDrama)):
+	#	print biarray[x]
+	for y in range(0,len(MPDrama)):
 		for x in range (0,5):
 			temp = biarray[x]
 			first=temp[0]
 			second=temp[1]
-			'''print first
-			print second
-			print uniarray[x]
-			print MPDrama[y]
-			print "+++++++++++++++++++++++++++++++++++++"'''
-			if first or second in MPDrama[y].lower():
-				if uniarray[x] in MPDrama[y].lower():
+			nominee = MPDrama[y]
+			nominee = nominee.lower()
+			#print nominee
+			#print first
+			#print second
+			#print uniarray[x]
+			#print MPDrama[y]
+			print "+++++++++++++++++++++++++++++++++++++"
+			if first or second in nominee:
+				if uniarray[x] in nominee:
 					print MPDrama[y]
-					y=len(MPDrama)
+				break
+					#y=len(MPDrama)
+	
