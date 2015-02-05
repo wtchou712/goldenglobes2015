@@ -112,4 +112,4 @@ if (var == "1"):
 			if first or second in MPDrama[y].lower():
 				if uniarray[x] in MPDrama[y].lower():
 					print MPDrama[y]
-					y=len(MPDrama);
+					y=len(MPDrama)
