@@ -68,18 +68,31 @@ def findTopTweets(award):
 	topUni = fdistUnigram.most_common(10)
 	fdistBigram = nltk.FreqDist(bigram_array)
 	topBi = fdistBigram.most_common(10)
-	print topUni
-	print topBi
+	# print topUni
+	# print topBi
 	return topUni,topBi
 
 def findWinner(topUnigrams, topBigrams, nominees):
+	singleWordNom = False
+	for nom in nominees: #search nominees to see if any are single words
+		checkNom = nltk.word_tokenize(nom)
+		if len(checkNom)!=0:
+			singleWordNom= True
+			break
 	for i in range(0,len(topUnigrams)):
 		for j in range (0,len(nominees)):
 			biPart1 = (topBigrams[i][0])[0]
 			biPart2 = (topBigrams[i][0])[1]
 			uni = topUnigrams[i][0]
 			nominee = nominees[j].lower()
-			if nominee.find(biPart1)!= -1 or nominee.find(biPart2)!=-1:
-				return nominees[j]
-				break
+			if singleWordNom:#use unigram search if single words nominee
+				if nominee.find(uni)!=-1:
+					return nominees[j]
+					break
+			else:
+				if nominee.find(biPart1)!= -1 or nominee.find(biPart2)!=-1:
+					return nominees[j]
+					break
+
+			
 

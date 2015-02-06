@@ -65,27 +65,36 @@ awardsList = ['Best Motion Picture - Drama', 'Best Motion Picture - Musical or C
 			  'Best Supporting Actor in a TV Show, Miniseries or TV Movie']
 
 
+def searchAward(awardChoice):
+	# print "you entered", awardChoice
+	print "Searching for the winner of " + awardsList[awardChoice-1]
+
+	if awardChoice is 12: #animated film
+		results=findTopTweets(remove_punctuation(("Animated Film").lower()))
+		winner = findWinner(results[0], results[1], allNominees[awardChoice-1])
+	elif awardChoice is 11: #foreign film
+		results=findTopTweets(remove_punctuation(('Foreign Film').lower()))
+		winner = findWinner(results[0], results[1], allNominees[awardChoice-1])	
+	else:
+		results=findTopTweets(remove_punctuation((awardsList[awardChoice-1]).lower()))
+		winner = findWinner(results[0], results[1], allNominees[awardChoice-1])
+
+	# print allNominees[awardChoice-1]
+	if winner in directory:
+		print "The award for " + awardsList[awardChoice-1] + " goes to " + winner + " in " + directory[winner]
+	else: 
+		print "The award for " + awardsList[awardChoice-1] + " goes to " + str(winner)
+
+
 
 for i in range(0, len(awardsList)):
 	print str(i+1) + ": " + awardsList[i]  
+# awardChoice = int(raw_input("Choose the number of award you want to see: "))
+# searchAward(awardChoice)
+
+print "Searching all..."
+for index in range(1,25):
+	searchAward(index)
 
 
-awardChoice = int(raw_input("Choose the number of award you want to see: "))
-print "you entered", awardChoice
-print "Searching for the winner of " + awardsList[awardChoice-1]
 
-if awardChoice is 12: #animated film
-	results=findTopTweets(remove_punctuation(("Animated Film").lower()))
-	winner = findWinner(results[0], results[1], allNominees[awardChoice-1])
-elif awardChoice is 11: #foreign film
-	results=findTopTweets(remove_punctuation(('Foreign Film').lower()))
-	winner = findWinner(results[0], results[1], allNominees[awardChoice-1])	
-else:
-	results=findTopTweets(remove_punctuation((awardsList[awardChoice-1]).lower()))
-	winner = findWinner(results[0], results[1], allNominees[awardChoice-1])
-
-# print allNominees[awardChoice-1]
-if winner in directory:
-	print "The award for " + awardsList[awardChoice-1] + " goes to " + winner + " in " + directory[winner]
-else: 
-	print "The award for " + awardsList[awardChoice-1] + " goes to " + str(winner)
