@@ -84,19 +84,8 @@ else:
 	results=findTopTweets(remove_punctuation((awardsList[awardChoice-1]).lower()))
 	winner = findWinner(results[0], results[1], allNominees[awardChoice-1])
 
-
 # print allNominees[awardChoice-1]
 if winner in directory:
 	print "The award for " + awardsList[awardChoice-1] + " goes to " + winner + " in " + directory[winner]
 else: 
 	print "The award for " + awardsList[awardChoice-1] + " goes to " + str(winner)
-
-
-
-
-
-
-
-
-
-

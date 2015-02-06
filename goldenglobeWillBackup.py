@@ -37,38 +37,63 @@ def findTopTweets(award):
 	    for line in f:
 	        data.append(json.loads(line))
 
-	stopset = removeIgnored(award)
-
 	# this code block creates our corpus of relevant tweets - an array of tweet objects
-	bigram_array = []
-	unigram_array = []
+	corpus = []
 	for tweet in data[0]: 
-		tweetText = tweet["text"].lower()	
-		tweetText = remove_punctuation(tweetText)
+		text = tweet["text"].lower()	
+		text = remove_punctuation(text)
 		tokenNotFound = False
 		awardTokens = nltk.word_tokenize(award)
 		for token in awardTokens:
-			if tweetText.find(token)==-1:
+			if text.find(token)==-1:
 				tokenNotFound = True
 		if tokenNotFound is False:
-			#add to array of unigrams
-			tweetTokens = nltk.word_tokenize(tweetText)
-			for tok in tweetTokens:#add appropriate unigrams
-				if tok not in stopset:
-					unigram_array.append(tok)
+			# print awardTokens
+			corpus.append(text)
 
-			#add to array of bigams
-			words = re.findall('\w+', tweetText) #seperate the words
-			bigrams = zip(words, words[1:]) #create the bigrams
-			for bi in bigrams:
-				if bi[0] not in stopset and bi[1] not in stopset:
-					bigram_array.append(bi)
 
-	fdistUnigram = FreqDist(unigram_array)
+	# this code block turns tweets into unigrams and bigrams and then stores them in token_array and bigram_array2
+	token_array = []
+	bigram_array = []
+	bigram_array2 = []
+	for x in range(0,len(corpus)):
+		#print corpus[x]
+		sentence = corpus[x]
+		tokens = nltk.word_tokenize(sentence)
+		bigrams = nltk.bigrams(sentence)
+		token_array.append(tokens)
+		words = re.findall('\w+', sentence)
+		temp = zip(words,words[1:]) # originally had Counter() wrapped around zip(...)
+		bigram_array2.append(temp)
+
+
+	stopset = removeIgnored(award)
+
+	final_array = [] # this array will store all unigrams 
+	no_common_words_array = []
+	for x in range(0,len(token_array)):
+		token_list = token_array[x]
+		for y in range(0,len(token_list)):
+			one_token = token_list[y]
+			temp_array = []
+			if one_token not in stopset:
+				####print one_token	
+				final_array.append(one_token)
+
+	all_bigrams_array = [] # this array will store all bigrams
+	for x in range(0,len(bigram_array2)):
+		bigram_collection = bigram_array2[x]
+		for y in range(0,len(bigram_collection)):
+			one_bigram = bigram_collection[y]
+			temp_array = []
+			if one_bigram[0] not in stopset:
+				if one_bigram[1] not in stopset:
+					all_bigrams_array.append(one_bigram)
+
+	fdistUnigram = FreqDist(final_array)
 	topUni = fdistUnigram.most_common(10)
-	fdistBigram = nltk.FreqDist(bigram_array)
+	fdistBigram = nltk.FreqDist(all_bigrams_array)
 	topBi = fdistBigram.most_common(10)
-	print topUni
 	print topBi
 	return topUni,topBi
 
