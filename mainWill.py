@@ -93,7 +93,7 @@ for i in range(0, len(awardsList)):
 # searchAward(awardChoice)
 
 print "Searching all..."
-for index in range(1,25):
+for index in range(1,26):
 	searchAward(index)
 
 
