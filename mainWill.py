@@ -33,6 +33,7 @@ MPActressDrama = ["Jessica Chastain", "Marion Cotillard", 'Helen Mirren', 'Naomi
 MPActorDrama = ['Daniel Day-Lewis', 'Richard Gere', 'John Hawkes', 'Joaquin Phoenix', 'Denzel Washington']
 MPActorMusicComedy = ['Jack Black', 'Bradley Cooper', 'Hugh Jackman', 'Ewan McGregor', 'Bill Murray']
 MPActressMusicComedy = ['Emily Blunt', 'Judi Dench', 'Jennifer Lawrence', 'Maggie Smith', 'Meryl Streep']
+MPSupportingActress = ['Amy Adams', 'Sally Field', 'Anne Hathaway', 'Helen Hunt', 'Nicole Kidman']
 MPSupportingActor = ['Alan Arkin', 'Leonardo DiCaprio', 'Philip Seymour Hoffman', 'Tommy Lee Jones', 'Christoph Waltz']
 MPScreenplay = ['Mark Boal', 'Tony Kushner', "David O'Russell", 'Quentin Tarantino', 'Chris Terrio']
 MPForeign = ['Amour','A Royal Affair', 'The Intouchables', 'Kon-Tiki', 'Rust and Bone']
@@ -52,11 +53,17 @@ TVActorMiniSeries = ['Kevin Costner', 'Benedict Cumberbatch', 'Woody Harrelson',
 TVSupportingActress = ['Hayden Panettiere', 'Archie Panjabi', 'Sarah Paulson' , 'Maggie Smith', 'Sofia Vergara']
 TVSupportingActor = ['Max Greenfield', 'Ed Harris', 'Danny Huston', 'Mandy Patinkin', 'Eric Stonestreet']
 
-allNominees = [MPDrama, MPMusicComedy, MPDirector, MPActressDrama, MPActorDrama, MPActorMusicComedy, MPActressMusicComedy, MPSupportingActor, MPScreenplay, MPForeign,
+allNominees = [MPDrama, MPMusicComedy, MPDirector, MPActressDrama, MPActorDrama, MPActorMusicComedy, MPActressMusicComedy, MPSupportingActress, MPSupportingActor, MPScreenplay, MPForeign,
 			   MPAnimated, MPSong, MPScore, TVMusicComedy, TVDrama, TVActressDrama, TVActorDrama, TVActressComedy, TVActorComedy, TVMiniseries, TVActressMiniseries,
 			   TVActorMiniSeries,TVSupportingActress, TVSupportingActor]
 awardsList = ['Best Motion Picture - Drama', 'Best Motion Picture - Musical or Comedy', 'Best Director - Motion Picture', 'Best Actress in a Motion Picture - Drama',
-			  'Best Actor in a Motion Picture - Drama']   
+			  'Best Actor in a Motion Picture - Drama', 'Best Actor in a Musical or Comedy - Motion Picture', 'Best Actress in a Musical or Comedy - Motion Picture',
+			  'Best Supporting Actress - Motion Picture', 'Best Supporting Actor - Motion Picture', 'Best Screenplay - Motion Picture', 'Foreign Film - Motion Picture', 
+			  'Best Animated Film - Motion Picture', 'Best Original Song - Motion Picture', 'Best Original Score - Motion Picture', 'Best TV Comedy or Musical', 'Best TV Drama',
+			  'Best Actress in a TV Drama', 'Best Actor in a TV Drama', 'Best Actress in a TV Comedy or Musical', 'Best Actor in a TV Comedy or Musical', 'Best Miniseries or TV Movie',
+			  'Best Actress in a Miniseries or TV Movie', 'Best Actor in a Miniseries or TV Movie', 'Best Supporting Actress in a TV Show, Miniseries or TV Movie', 
+			  'Best Supporting Actor in a TV Show, Miniseries or TV Movie']
+
 
 
 for i in range(0, len(awardsList)):
@@ -65,14 +72,24 @@ for i in range(0, len(awardsList)):
 
 awardChoice = int(raw_input("Choose the number of award you want to see: "))
 print "you entered", awardChoice
-print "Searching for the winner..."
-results=findTopTweets(remove_punctuation((awardsList[awardChoice-1]).lower()))
-winner = findWinner(results[0], results[1], allNominees[awardChoice-1])
-print allNominees[awardChoice-1]
+print "Searching for the winner of " + awardsList[awardChoice-1]
+
+if awardChoice is 12: #animated film
+	results=findTopTweets(remove_punctuation(("Animated Film").lower()))
+	winner = findWinner(results[0], results[1], allNominees[awardChoice-1])
+elif awardChoice is 11: #foreign film
+	results=findTopTweets(remove_punctuation(('Foreign Film').lower()))
+	winner = findWinner(results[0], results[1], allNominees[awardChoice-1])	
+else:
+	results=findTopTweets(remove_punctuation((awardsList[awardChoice-1]).lower()))
+	winner = findWinner(results[0], results[1], allNominees[awardChoice-1])
+
+
+# print allNominees[awardChoice-1]
 if winner in directory:
-	print winner + " in " + directory[winner]
+	print "The award for " + awardsList[awardChoice-1] + " goes to " + winner + " in " + directory[winner]
 else: 
-	print winner
+	print "The award for " + awardsList[awardChoice-1] + " goes to " + str(winner)
 
 
 

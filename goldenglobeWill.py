@@ -42,7 +42,13 @@ def findTopTweets(phrase):
 	for tweet in data[0]: 
 		text = tweet["text"].lower()	
 		text = remove_punctuation(text)
-		if phrase in text:
+		tokenNotFound = False
+		awardTokens = nltk.word_tokenize(phrase)
+		for token in awardTokens:
+			if text.find(token)==-1:
+				tokenNotFound = True
+		if tokenNotFound is False:
+			# print awardTokens
 			corpus.append(text)
 
 
@@ -85,22 +91,26 @@ def findTopTweets(phrase):
 					all_bigrams_array.append(one_bigram)
 
 	fdist = FreqDist(final_array)
-	topUni = fdist.most_common(20)
+	topUni = fdist.most_common(10)
 	fdist1 = nltk.FreqDist(all_bigrams_array)
-	topBi = fdist1.most_common(20)
-
+	topBi = fdist1.most_common(10)
 	return topUni,topBi
 
 def findWinner(topUnigrams, topBigrams, nominees):
-	for i in range(0,len(nominees)):
-		for j in range (0,len(topUnigrams)):
-			biPart1 = (topBigrams[j][0])[0]
-			biPart2 = (topBigrams[j][0])[1]
-			uni = topUnigrams[j][0]
-			nominee = nominees[i].lower()
-			print "+++++++++++++++++++++++++++++++++++++"
-			if biPart1 or biPart2 in nominee:
-				if uni in nominee:
-					return nominees[i]
+	for i in range(0,len(topUnigrams)):
+		for j in range (0,len(nominees)):
+			biPart1 = (topBigrams[i][0])[0]
+			biPart2 = (topBigrams[i][0])[1]
+			uni = topUnigrams[i][0]
+			nominee = nominees[j].lower()
+			# print "bigram part 1 " + biPart1
+			# print "bigram part 2 " + biPart2
+			# print "unigram " + uni
+			# print "nominee " + nominee
+			# print "+++++++++++++++++++++++++++++++++++++"
+			#if biPart1 or biPart2 in nominee:
+			if nominee.find(biPart1)!= -1 or nominee.find(biPart2)!=-1:
+				#if uni in nominee:
+				return nominees[j]
 				break
 
