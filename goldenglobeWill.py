@@ -26,6 +26,9 @@ def removeIgnored(phrase):
 	stopset.add('rt')
 	stopset.add('actor')
 	stopset.add('actress')
+	#added stopsets
+	stopset.add('award')
+	stopset.add('show')
 	for i in range(0,len(words)):
 		stopset.add(words[i])
 	return stopset
@@ -40,37 +43,49 @@ def findTopTweets(award):
 	stopset = removeIgnored(award)
 
 	# this code block creates our corpus of relevant tweets - an array of tweet objects
-	bigram_array = []
-	unigram_array = []
+	award_bigrams = []
+	award_unigrams = []
+	presenter_bigram = []
 	for tweet in data[0]: 
 		tweetText = tweet["text"].lower()	
 		tweetText = remove_punctuation(tweetText)
-		tokenNotFound = False
+		awardTokenNotFound = False
+		presenterTokenNotFound = False
 		awardTokens = nltk.word_tokenize(award)
 		for token in awardTokens:
-			if tweetText.find(token)==-1:
-				tokenNotFound = True
-		if tokenNotFound is False:
+			if tweetText.find(token)==-1:#check if the award token is found
+				#if not found, change to true
+				awardTokenNotFound = True
+				presenterTokenNotFound = True
+			if tweetText.find('present')==-1: #check if the 'present' token is found in tweet
+				presenterTokenNotFound = True
+
+		if awardTokenNotFound is False:
 			#add to array of unigrams
 			tweetTokens = nltk.word_tokenize(tweetText)
 			for tok in tweetTokens:#add appropriate unigrams
 				if tok not in stopset:
-					unigram_array.append(tok)
+					award_unigrams.append(tok)
 
 			#add to array of bigams
 			words = re.findall('\w+', tweetText) #seperate the words
 			bigrams = zip(words, words[1:]) #create the bigrams
 			for bi in bigrams:
 				if bi[0] not in stopset and bi[1] not in stopset:
-					bigram_array.append(bi)
+					award_bigrams.append(bi)
+					if presenterTokenNotFound is False:
+						presenter_bigram.append(bi)
 
-	fdistUnigram = FreqDist(unigram_array)
-	topUni = fdistUnigram.most_common(10)
-	fdistBigram = nltk.FreqDist(bigram_array)
-	topBi = fdistBigram.most_common(10)
-	# print topUni
-	# print topBi
-	return topUni,topBi
+	fdistUnigram = FreqDist(award_unigrams)
+	topUni = fdistUnigram.most_common(30)
+	fdistBigram = nltk.FreqDist(award_bigrams)
+	topBi = fdistBigram.most_common(30)
+	fdistPresenter = nltk.FreqDist(presenter_bigram)
+	topPresenterBi = fdistPresenter.most_common(10)
+	print topUni
+	print topBi
+	print topPresenterBi
+	return topUni,topBi,topPresenterBi
 
 def findWinner(topUnigrams, topBigrams, nominees):
 	singleWordNom = False
@@ -93,6 +108,13 @@ def findWinner(topUnigrams, topBigrams, nominees):
 				if nominee.find(biPart1)!= -1 or nominee.find(biPart2)!=-1:
 					return nominees[j]
 					break
+def findHost(topBigrams):
+	for i in range(0,len(topBigrams)):
+		biPart1 = (topBigrams[i][0])[0]
+		biPart2 = (topBigrams[i][0])[1]
+		return biPart1 + " " + biPart2
+
+def
 
 			
 
