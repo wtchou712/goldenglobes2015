@@ -73,19 +73,19 @@ def findTopTweets(award):
 			for bi in bigrams:
 				if bi[0] not in stopset and bi[1] not in stopset:
 					award_bigrams.append(bi)
-					if presenterTokenNotFound is False:
-						presenter_bigram.append(bi)
+					# if presenterTokenNotFound is False:
+					# 	presenter_bigram.append(bi)
 
 	fdistUnigram = FreqDist(award_unigrams)
 	topUni = fdistUnigram.most_common(30)
 	fdistBigram = nltk.FreqDist(award_bigrams)
 	topBi = fdistBigram.most_common(30)
-	fdistPresenter = nltk.FreqDist(presenter_bigram)
-	topPresenterBi = fdistPresenter.most_common(10)
-	print topUni
-	print topBi
-	print topPresenterBi
-	return topUni,topBi,topPresenterBi
+	# fdistPresenter = nltk.FreqDist(presenter_bigram)
+	# topPresenterBi = fdistPresenter.most_common(10)
+	# print topUni
+	# print topBi
+	# print topPresenterBi
+	return topUni,topBi
 
 def findWinner(topUnigrams, topBigrams, nominees):
 	singleWordNom = False
@@ -114,7 +114,50 @@ def findHost(topBigrams):
 		biPart2 = (topBigrams[i][0])[1]
 		return biPart1 + " " + biPart2
 
-def
 
+def findPresenter(winner):
+	print "Searching for the presenter..."
+	print "     Searching for top tweets..."
+	data = []
+	with open('gg2013.json') as f:
+	    for line in f:
+	        data.append(json.loads(line))
+
+	stopset = removeIgnored(winner)
+
+	# this code block creates our corpus of relevant tweets - an array of tweet objects
+	presenter_bigrams = []
+	presenter_unigrams = []
+	for tweet in data[0]: 
+		tweetText = tweet["text"].lower()	
+		tweetText = remove_punctuation(tweetText)
+		presenterTokenNotFound = False
+		winnerTokens = nltk.word_tokenize(winner)
+		for token in winnerTokens:
+			if tweetText.find(token)==-1 and tweetText.find('present')==-1: #or tweetText.find('gave')==-1 or tweetText.find('give')== -1 or tweetText.find('announce')==-1:#check if the award token is found
+				#if not found, change to true
+				presenterTokenNotFound = True
+
+		if presenterTokenNotFound is False:
+			#add to array of unigrams
+			tweetTokens = nltk.word_tokenize(tweetText)
+			for tok in tweetTokens:#add appropriate unigrams
+				if tok not in stopset:
+					presenter_unigrams.append(tok)
+
+			#add to array of bigams
+			words = re.findall('\w+', tweetText) #seperate the words
+			bigrams = zip(words, words[1:]) #create the bigrams
+			for bi in bigrams:
+				if bi[0] not in stopset and bi[1] not in stopset:
+					presenter_bigrams.append(bi)
+
+	fdistUnigram = FreqDist(presenter_unigrams)
+	topUni = fdistUnigram.most_common(30)
+	fdistPresenter = nltk.FreqDist(presenter_bigrams)
+	topBi = fdistPresenter.most_common(10)
+	print topUni
+	print topBi
+	return topUni,topBi
 			
 

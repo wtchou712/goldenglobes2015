@@ -2,6 +2,7 @@ from goldenglobeWill import findTopTweets
 from goldenglobeWill import findWinner
 from goldenglobeWill import remove_punctuation
 from goldenglobeWill import findHost
+from goldenglobeWill import findPresenter
 
 directory = {'Ben Affleck': 'Argo', 'Kathryn Bigelow' : "Zero Dark Thirty", 'Ang Lee': 'Life of Pi', 'Steven Speilberg': 'Lincoln',
 		  'Quentin Tarantino': 'Django Unchained', 'Jessica Chastain':'Zero Dark Thirty', 'Marion Cotillard': 'Rust and Bone',
@@ -65,44 +66,47 @@ awardsList = ['Best Motion Picture - Drama', 'Best Motion Picture - Musical or C
 			  'Best Actress in a Miniseries or TV Movie', 'Best Actor in a Miniseries or TV Movie', 'Best Supporting Actress in a TV Show, Miniseries or TV Movie', 
 			  'Best Supporting Actor in a TV Show, Miniseries or TV Movie']
 
-
-def searchAward(awardChoice):
-	# print "you entered", awardChoice
-	print "Searching for " + awardsList[awardChoice-1]
-
-	if awardChoice is 12: #animated film
-		results=findTopTweets(remove_punctuation(("Animated Film").lower()))
-		winner = findWinner(results[0], results[1], allNominees[awardChoice-1])
-	elif awardChoice is 11: #foreign film
-		results=findTopTweets(remove_punctuation(('Foreign Film').lower()))
-		winner = findWinner(results[0], results[1], allNominees[awardChoice-1])
-	elif awardChoice is 26: #award host
-		results = findTopTweets(remove_punctuation(('Award Host').lower()))
-		winner = findHost(results[1])
-	else:
-		results=findTopTweets(remove_punctuation((awardsList[awardChoice-1]).lower()))
-		winner = findWinner(results[0], results[1], allNominees[awardChoice-1])
-
-	# print allNominees[awardChoice-1]
-	if winner in directory:
-		print "The award for " + awardsList[awardChoice-1] + " goes to " + winner + " in " + directory[winner]
-	else: 
-		print "The award for " + awardsList[awardChoice-1] + " goes to " + str(winner)
+findPresenter("Les Miserables")
 
 
+# def searchAward(awardChoice):
+# 	# print "you entered", awardChoice
+# 	print "Searching for " + awardsList[awardChoice-1]
 
-for i in range(0, len(awardsList)):
-	print str(i+1) + ": " + awardsList[i]
-# print str(27) + ": " + 'All Awards' 
+# 	if awardChoice is 12: #animated film
+# 		results=findTopTweets(remove_punctuation(("Animated Film").lower()))
+# 		winner = findWinner(results[0], results[1], allNominees[awardChoice-1])
+# 	elif awardChoice is 11: #foreign film
+# 		results=findTopTweets(remove_punctuation(('Foreign Film').lower()))
+# 		winner = findWinner(results[0], results[1], allNominees[awardChoice-1])
+# 	elif awardChoice is 26: #award host
+# 		results = findTopTweets(remove_punctuation(('Award Host').lower()))
+# 		winner = findHost(results[1])
+# 	else:
+# 		results=findTopTweets(remove_punctuation((awardsList[awardChoice-1]).lower()))
+# 		winner = findWinner(results[0], results[1], allNominees[awardChoice-1])
+# 		findPresenter(winner)
 
-awardChoice = int(raw_input("Choose the number of award you want to see: ")) 
+# 	# print allNominees[awardChoice-1]
+# 	if winner in directory:
+# 		print "The award for " + awardsList[awardChoice-1] + " goes to " + winner + " in " + directory[winner]
+# 	else: 
+# 		print "The award for " + awardsList[awardChoice-1] + " goes to " + str(winner)
 
-if awardChoice is not 27:
-	searchAward(awardChoice)
-else:
-	print "Searching all..."
-	for index in range(1,27):
-		searchAward(index)
+
+
+# for i in range(0, len(awardsList)):
+# 	print str(i+1) + ": " + awardsList[i]
+# # print str(27) + ": " + 'All Awards' 
+
+# awardChoice = int(raw_input("Choose the number of award you want to see: ")) 
+
+# if awardChoice is not 27:
+# 	searchAward(awardChoice)
+# else:
+# 	print "Searching all..."
+# 	for index in range(1,27):
+# 		searchAward(index)
 
 
 
