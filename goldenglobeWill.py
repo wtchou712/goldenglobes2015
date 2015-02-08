@@ -26,9 +26,10 @@ def removeIgnored(phrase):
 	stopset.add('rt')
 	stopset.add('actor')
 	stopset.add('actress')
+	stopset.add('co')
+	stopset.add('http')
 	#added stopsets
 	stopset.add('award')
-	stopset.add('show')
 	for i in range(0,len(words)):
 		stopset.add(words[i])
 	return stopset
@@ -36,7 +37,7 @@ def removeIgnored(phrase):
 def findTopTweets(award):
 	print "     Searching for top tweets..."
 	data = []
-	with open('gg2013.json') as f:
+	with open('gg15mini.json') as f:
 	    for line in f:
 	        data.append(json.loads(line))
 
@@ -50,15 +51,14 @@ def findTopTweets(award):
 		tweetText = tweet["text"].lower()	
 		tweetText = remove_punctuation(tweetText)
 		awardTokenNotFound = False
-		presenterTokenNotFound = False
-		awardTokens = nltk.word_tokenize(award)
-		for token in awardTokens:
-			if tweetText.find(token)==-1:#check if the award token is found
-				#if not found, change to true
-				awardTokenNotFound = True
-				presenterTokenNotFound = True
-			if tweetText.find('present')==-1: #check if the 'present' token is found in tweet
-				presenterTokenNotFound = True
+		awardText = remove_punctuation(award.lower())
+		# awardTokens = nltk.word_tokenize(award)
+		# for token in awardTokens:
+		# 	if tweetText.find(token)==-1:#check if the award token is found
+		# 		#if not found, change to true
+		# 		awardTokenNotFound = True
+		if award not in tweetText:
+			awardTokenNotFound = True
 
 		if awardTokenNotFound is False:
 			#add to array of unigrams
@@ -82,8 +82,8 @@ def findTopTweets(award):
 	topBi = fdistBigram.most_common(30)
 	# fdistPresenter = nltk.FreqDist(presenter_bigram)
 	# topPresenterBi = fdistPresenter.most_common(10)
-	# print topUni
-	# print topBi
+	print topUni
+	print topBi
 	# print topPresenterBi
 	return topUni,topBi
 
@@ -116,29 +116,37 @@ def findHost(topBigrams):
 
 
 def findPresenter(winner):
+	#winner = remove_punctuation(winner.lower())
 	print "Searching for the presenter..."
 	print "     Searching for top tweets..."
 	data = []
-	with open('gg2013.json') as f:
+	with open('gg15mini.json') as f:
 	    for line in f:
 	        data.append(json.loads(line))
 
-	stopset = removeIgnored(winner)
+	stopset = removeIgnored(winner.lower())
+	stopset.add('motion')
+	stopset.add('picture')
+	#print stopset
 
 	# this code block creates our corpus of relevant tweets - an array of tweet objects
 	presenter_bigrams = []
 	presenter_unigrams = []
+	winnerTokens = nltk.word_tokenize(winner.lower())
+	print winnerTokens
 	for tweet in data[0]: 
 		tweetText = tweet["text"].lower()	
 		tweetText = remove_punctuation(tweetText)
 		presenterTokenNotFound = False
-		winnerTokens = nltk.word_tokenize(winner)
 		for token in winnerTokens:
-			if tweetText.find(token)==-1 and tweetText.find('present')==-1: #or tweetText.find('gave')==-1 or tweetText.find('give')== -1 or tweetText.find('announce')==-1:#check if the award token is found
+			if tweetText.find(token)==-1 or tweetText.find('present')==-1:
 				#if not found, change to true
 				presenterTokenNotFound = True
+		# if tweetText.find(winner)==-1 or tweetText.find(winner)==-1:
+		# 	presenterTokenNotFound = True
 
 		if presenterTokenNotFound is False:
+			print "Possible tweet match found"
 			#add to array of unigrams
 			tweetTokens = nltk.word_tokenize(tweetText)
 			for tok in tweetTokens:#add appropriate unigrams

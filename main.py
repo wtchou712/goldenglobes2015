@@ -31,6 +31,7 @@ MPActressDrama = ["Jessica Chastain", "Marion Cotillard", 'Helen Mirren', 'Naomi
 MPActorDrama = ['Daniel Day-Lewis', 'Richard Gere', 'John Hawkes', 'Joaquin Phoenix', 'Denzel Washington']
 MPActorMusicComedy = ['Jack Black', 'Bradley Cooper', 'Hugh Jackman', 'Ewan McGregor', 'Bill Murray']
 MPActressMusicComedy = ['Emily Blunt', 'Judi Dench', 'Jennifer Lawrence', 'Maggie Smith', 'Meryl Streep']
+MPSupportingActress = ['Amy Adams', 'Sally Field', 'Anne Hathaway', 'Helen Hunt', 'Nicole Kidman']
 MPSupportingActor = ['Alan Arkin', 'Leonardo DiCaprio', 'Philip Seymour Hoffman', 'Tommy Lee Jones', 'Christoph Waltz']
 MPScreenplay = ['Mark Boal', 'Tony Kushner', "David O'Russell", 'Quentin Tarantino', 'Chris Terrio']
 MPForeign = ['Amour','A Royal Affair', 'The Intouchables', 'Kon-Tiki', 'Rust and Bone']
@@ -83,7 +84,7 @@ print "you entered", var
 
 if (var == "1"):
 	print "u made it here"
-	top20=findinfo("best motion picture drama")
+	top20=findinfo("best supporting actress")
 	unis=top20[0]
 	bis=top20[1]
 	uniarray=[]
@@ -99,12 +100,12 @@ if (var == "1"):
 	print "================================================"
 	#for x in range (0,len(biarray)):
 	#	print biarray[x]
-	for y in range(0,len(MPDrama)):
+	for y in range(0,len(MPSupportingActress)):
 		for x in range (0,5):
 			temp = biarray[x]
 			first=temp[0]
 			second=temp[1]
-			nominee = MPDrama[y]
+			nominee = MPSupportingActress[y]
 			nominee = nominee.lower()
 			#print nominee
 			#print first
@@ -114,7 +115,7 @@ if (var == "1"):
 			print "+++++++++++++++++++++++++++++++++++++"
 			if first or second in nominee:
 				if uniarray[x] in nominee:
-					print MPDrama[y]
+					print MPSupportingActress[y]
 				break
 					#y=len(MPDrama)
 	
